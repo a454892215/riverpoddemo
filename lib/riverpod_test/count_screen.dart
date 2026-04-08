@@ -10,9 +10,11 @@ class CounterScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     /// 【重点 1: ref.watch】 —— 用于监听目标对象对应的使用了@riverpod修饰的类的build()方法返回的对象
-    /// 只要监听的对象改变了 就会触发 该ConsumerWidget的Widget build(BuildContext context, WidgetRef ref) 重新调用。
+    /// 只要监听的对象改变了 就会触发 该ConsumerWidget的Widget build(BuildContext context, WidgetRef ref) 方法重新调用。
     ///  问题1： 如果监听的是一个一个自定义类的对象，这个对象的某个属性改变了，也会触发更新吗？
+    ///         不会，除非替换了整个对象，也就是对象的内存地址改变了，才会触发更新。比如使用使用 copyWith() 方法创建一个新对象
     ///  问题2： 如果监听的是一个List呢，List中的 某个对象的某个属性改变了，也会触发更新吗？
+    ///         同上，必须给 state 赋值一个新的 List,也就是目标对象的内存地址改变了才能触发更新。
     final count = ref.watch(counterProvider);
 
     return Scaffold(
