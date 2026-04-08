@@ -1,0 +1,60 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'count_notifier.dart';
+import 'data_provider.dart';
+
+/// 1. UI 跟节点类要继承ConsumerWidget 提供 WidgetRef ref 对象
+class ManualExampleScreen extends ConsumerWidget {
+  const ManualExampleScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    /// 2. . 使用ref.watch(provider) 监听目标 provider，当目标provider中对应的数据（这里是URL）发生改变,h
+    final baseUrl = ref.watch(apiBaseUrlProvider);
+
+    /// 2. 处理异步数据 (重点：使用 .when)
+    /// 这是 FutureProvider 最优雅的地方，强制你处理三种状态
+    final profileAsync = ref.watch(userProfileProvider);
+
+    /// 3. 监听可变状态
+    final count = ref.watch(manualCounterProvider);
+
+    return Scaffold(
+      appBar: AppBar(title: Text("手动模式示例")),
+      body: Column(
+        children: [
+          Text("API 地址: $baseUrl"),
+
+          const Divider(),
+
+          // 处理异步请求的 UI
+          profileAsync.when(
+            data: (data) => Text("用户姓名: ${data['name']}"),
+            loading: () => CircularProgressIndicator(),
+            error: (err, stack) => Text("加载失败: $err"),
+          ),
+
+          const Divider(),
+
+          Text("当前计数: $count"),
+          ElevatedButton(
+            onPressed: () {
+              // 访问 Notifier 实例并调用方法
+              ref.read(manualCounterProvider.notifier).increment();
+            },
+            child: Text("增加"),
+          ),
+
+          ElevatedButton(
+            onPressed: () {
+              // 强制刷新异步请求
+              ref.refresh(userProfileProvider);
+            },
+            child: Text("重新加载用户信息"),
+          ),
+        ],
+      ),
+    );
+  }
+}
