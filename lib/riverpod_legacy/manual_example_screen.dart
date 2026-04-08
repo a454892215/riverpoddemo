@@ -17,7 +17,8 @@ class ManualExampleScreen extends ConsumerWidget {
 
     /// 2. 处理异步数据 (重点：使用 .when)
     /// 问题：上面的  final baseUrl = ref.watch(apiBaseUrlProvider); 已经监听了 apiBaseUrlProvider，
-    /// 但是 userProfileProvider内部也监听了 apiBaseUrlProvider。 是否存在重复监听问题呢，重复监听是否可能有bug呢
+    /// 但是 userProfileProvider内部也监听了 apiBaseUrlProvider。 是否存在重复监听问题呢，重复监听是否可能有bug呢?
+    ///  不会造成重复监听的bug. 这是正常的业务逻辑，Riverpod完全支持这种同一个ConsumerWidget中 多个ref.watch直接或者间接重复监听一个相同的Provider
     final profileAsync = ref.watch(userProfileProvider);
 
     /// 3. 监听可变状态
