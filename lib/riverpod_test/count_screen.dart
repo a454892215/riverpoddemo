@@ -34,7 +34,7 @@ class CounterScreen extends ConsumerWidget {
 
             ElevatedButton(
               onPressed: () {
-                /// 这个刷新方法是什么意思？有什么作用？
+                /// 强制重新执行 build()，把 state 恢复初始.
                 ref.refresh(counterProvider);
               },
               child: const Text('ref.refresh 方法作用-调用测试'),
