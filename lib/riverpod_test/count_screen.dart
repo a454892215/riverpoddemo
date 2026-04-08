@@ -22,7 +22,7 @@ class CounterScreen extends ConsumerWidget {
 
             ElevatedButton(
               onPressed: () {
-                /// 【重点 2: ref.read】 —— 用于“事件处理”
+                /// 【重点 2: ref.read】 —— 用于读取counterProvider对应的值，但是为什么counterProvider后面.notifier?
                 /// 只读取当前那一刻的对象，不监听后续变化。 就像 Get.find<Counter>().increment()
                 ref.read(counterProvider.notifier).increment();
               },
@@ -31,12 +31,10 @@ class CounterScreen extends ConsumerWidget {
 
             ElevatedButton(
               onPressed: () {
-                // 【重点 3: ref.refresh】 —— 用于“重置/强制刷新”
-                // 会把状态销毁并重新执行 build() 方法。
-                // 常用于下拉刷新网络请求。
+                ///
                 ref.refresh(counterProvider);
               },
-              child: const Text('重置计数器'),
+              child: const Text('ref.refresh 方法作用-调用测试'),
             ),
           ],
         ),
