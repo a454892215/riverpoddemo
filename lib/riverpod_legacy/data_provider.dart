@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // --- [1. Provider]: 存静态数据，不可变 ---
+/// flutter riverpod legacy 使用示例-第1部分-Provider
 /// 提供一个用于 ref.watch 的 Provider对象
 /// 问题： 为什么把URL使用Provider包裹返回呢？URL一般都是固定的 不会改变的 使用这个作为示例代码 是否有歧义？
 /// 答案： 不同的环境 URL不相同 所以这里返回的URL不是固定的，而是可能会改变的

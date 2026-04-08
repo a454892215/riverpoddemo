@@ -2,7 +2,7 @@
 
 import 'package:flutter_riverpod/legacy.dart';
 
-
+/// flutter riverpod legacy 使用示例-第2部分-Notifier和StateNotifierProvider
 /// 第一步：定义 Notifier 类
 class CounterNotifier extends StateNotifier<int> {
   // 必须在构造函数里初始化 state
@@ -11,8 +11,8 @@ class CounterNotifier extends StateNotifier<int> {
   void increment() => state++;
 }
 
-// 第二步：手动声明 Provider
-// 泛型第一个是类名，第二个是 state 的类型
+/// 第二步：手动声明 Provider
+/// 泛型第一个是类名，第二个是 state 的类型
 final manualCounterProvider = StateNotifierProvider<CounterNotifier, int>((
   ref,
 ) {

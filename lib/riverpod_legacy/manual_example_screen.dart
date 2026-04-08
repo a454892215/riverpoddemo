@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'count_notifier.dart';
 import 'data_provider.dart';
 
+/// flutter riverpod legacy 使用示例-第3部分-ConsumerWidget
+
 /// 1. UI 跟节点类要继承ConsumerWidget 提供 WidgetRef ref 对象
 class ManualExampleScreen extends ConsumerWidget {
   const ManualExampleScreen({super.key});
