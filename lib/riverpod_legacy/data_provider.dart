@@ -19,7 +19,7 @@ final apiBaseUrlProvider = Provider<String>((ref) {
 
 // --- [2. FutureProvider]: 处理异步请求 ---
 // 相当于 GetX 中处理网络请求的逻辑，自带加载和错误状态
-/// .autoDispose 表示页面销毁时，数据也销毁? 数据销毁是指代什么？
+///使用FutureProvider构建一个异步的FutureProvider .autoDispose 表示页面销毁时，数据也销毁? 数据销毁是指代什么？
 final userProfileProvider = FutureProvider.autoDispose<Map<String, dynamic>>((
   ref,
 ) async {
