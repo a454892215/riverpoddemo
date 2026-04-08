@@ -25,7 +25,7 @@ class ManualExampleScreen extends ConsumerWidget {
     final count = ref.watch(manualCounterProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text("手动模式示例")),
+      appBar: AppBar(title: Text("riverpod legacy 使用示例")),
       body: Column(
         children: [
           Text("API 地址: $baseUrl"),
@@ -34,7 +34,7 @@ class ManualExampleScreen extends ConsumerWidget {
 
           // 处理异步请求的 UI
           profileAsync.when(
-            data: (data) => Text("用户姓名: ${data['name']}"),
+            data: (data) => Text("用户姓名: ${data['name']}  level:${data['level']}"),
             loading: () => CircularProgressIndicator(),
             error: (err, stack) => Text("加载失败: $err"),
           ),
@@ -55,7 +55,7 @@ class ManualExampleScreen extends ConsumerWidget {
               /// 强制刷新异步请求，会再次执行userProfileProvider中的异步回调函数
               ref.refresh(userProfileProvider);
             },
-            child: Text("重新加载用户信息"),
+            child: Text("重新加载用户信息-refresh"),
           ),
         ],
       ),

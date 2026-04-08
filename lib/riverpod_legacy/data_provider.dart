@@ -20,6 +20,7 @@ final apiBaseUrlProvider = Provider<String>((ref) {
 // --- [2. FutureProvider]: 处理异步请求 ---
 // 相当于 GetX 中处理网络请求的逻辑，自带加载和错误状态
 ///使用FutureProvider构建一个异步的FutureProvider .autoDispose 表示页面销毁时，数据也销毁? 数据销毁是指代什么？
+int level = 4;
 final userProfileProvider = FutureProvider.autoDispose<Map<String, dynamic>>((
   ref,
 ) async {
@@ -27,5 +28,6 @@ final userProfileProvider = FutureProvider.autoDispose<Map<String, dynamic>>((
   final url = ref.watch(apiBaseUrlProvider);
   /// 模拟网络请求
   await Future.delayed(const Duration(seconds: 2));
-  return {"name": "张三", "level": 5};
+  level ++;
+  return {"name": "张三", "level": level};
 });
