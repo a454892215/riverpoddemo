@@ -11,8 +11,8 @@ class CounterNotifier extends StateNotifier<int> {
   void increment() => state++;
 }
 
-/// 第二步：手动声明 Provider
-/// 泛型第一个是类名，第二个是 state 的类型
+/// 01. 第二步：手动声明 StateNotifierProvider 和第一步定义的CounterNotifier管理起来。
+/// 02. 泛型第一个是类名，第二个是 state 的类型
 final manualCounterProvider = StateNotifierProvider<CounterNotifier, int>((
   ref,
 ) {
