@@ -12,11 +12,12 @@ class ManualExampleScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    /// 2. . 使用ref.watch(provider) 监听目标 provider，当目标provider中对应的数据（这里是URL）发生改变,h
+    /// 2. . 使用ref.watch(provider) 监听目标 provider，当目标provider中对应的数据（这里是URL）发生改变
     final baseUrl = ref.watch(apiBaseUrlProvider);
 
     /// 2. 处理异步数据 (重点：使用 .when)
-    /// 这是 FutureProvider 最优雅的地方，强制你处理三种状态
+    /// 问题：上面的  final baseUrl = ref.watch(apiBaseUrlProvider); 已经监听了 apiBaseUrlProvider，
+    /// 但是 userProfileProvider内部也监听了 apiBaseUrlProvider。 是否存在重复监听问题呢，重复监听是否可能有bug呢
     final profileAsync = ref.watch(userProfileProvider);
 
     /// 3. 监听可变状态
