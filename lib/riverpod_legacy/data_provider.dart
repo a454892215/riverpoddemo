@@ -18,6 +18,7 @@ final apiBaseUrlProvider = Provider<String>((ref) {
   return "https://api.example4.com";
 });
 
+/// 这个有状态 直接返回状态值
 final levelProvider = StateProvider<int>((ref) => 8);
 // --- [2. FutureProvider]: 处理异步请求 ---
 // 相当于 GetX 中处理网络请求的逻辑，自带加载和错误状态

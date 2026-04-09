@@ -54,7 +54,7 @@ class ManualExampleScreen extends ConsumerWidget {
             onPressed: () {
               /// 强制刷新异步请求，会再次执行userProfileProvider中的异步回调函数
               ref.read(levelProvider.notifier).update((state) => state + 1);
-              // ref.refresh(userProfileProvider);
+              ref.refresh(userProfileProvider);
             },
             child: Text("重新加载用户信息-refresh"),
           ),
