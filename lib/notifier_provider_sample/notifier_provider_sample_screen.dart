@@ -21,14 +21,17 @@ class _NotifierProviderSampleScreenState
   void initState() {
     super.initState();
 
-    /// 【重点：ref.listen】监听某个字段变化（这里监听 errorMessage），适合做“弹窗/Toast/路由跳转”这类副作用。
-    ref.listen<String?>(
-      userListProvider.select((s) => s.errorMessage),
+    /// 【重点：ref.listen】监听 provider 状态变化，适合做“弹窗/Toast/路由跳转”这类副作用。
+    /// 这里用 AsyncValue.hasError 来抓错误并提示。
+    ref.listen(
+      userListProvider,
       (prev, next) {
-        if (next == null || next.isEmpty) return;
+        if (!next.hasError) return;
+        final err = next.error;
+        if (err == null) return;
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(next)),
+          SnackBar(content: Text(err.toString())),
         );
       },
     );
@@ -40,7 +43,10 @@ class _NotifierProviderSampleScreenState
     final state = ref.watch(userListProvider);
 
     /// 【重点：ref.watch + select】只监听某个字段，减少无关 rebuild
-    final userCount = ref.watch(userListProvider.select((s) => s.users.length));
+    final userCount = ref.watch(
+      userListProvider.select((v) => v.asData?.value.length ?? 0),
+    );
+    final users = state.asData?.value ?? const [];
 
     return Scaffold(
       appBar: AppBar(title: const Text('NotifierProvider 请求/更新 UI 示例')),
@@ -63,7 +69,7 @@ class _NotifierProviderSampleScreenState
               ],
             ),
             const SizedBox(height: 8),
-            Text('lastUpdatedAt: ${state.lastUpdatedAt ?? '-'}'),
+            Text('hasError: ${state.hasError}'),
             const SizedBox(height: 12),
 
             Wrap(
@@ -123,13 +129,13 @@ class _NotifierProviderSampleScreenState
             Expanded(
               child: Stack(
                 children: [
-                  if (state.users.isEmpty && !state.isLoading)
+                  if (users.isEmpty && !state.isLoading)
                     const Center(child: Text('暂无数据，点上面的按钮发起请求')),
                   ListView.separated(
-                    itemCount: state.users.length,
+                    itemCount: users.length,
                     separatorBuilder: (_, __) => const Divider(height: 1),
                     itemBuilder: (context, index) {
-                      final u = state.users[index];
+                      final u = users[index];
                       return ListTile(
                         title: Text(u.name),
                         subtitle: Text('id=${u.id}  level=${u.level}'),
