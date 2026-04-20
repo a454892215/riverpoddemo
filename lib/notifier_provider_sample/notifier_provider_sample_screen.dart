@@ -43,11 +43,8 @@ class _NotifierProviderSampleScreenState
     final state = ref.watch(userListProvider);
 
     /// 【重点：ref.watch + select】只监听某个字段，减少无关 rebuild
-    final userCount = ref.watch(
-      userListProvider.select((v) => v.asData?.value.length ?? 0),
-    );
+    final userCount = ref.watch(userListProvider.select((v) => v.asData?.value.length ?? 0),);
     final users = state.asData?.value ?? const [];
-
     return Scaffold(
       appBar: AppBar(title: const Text('NotifierProvider 请求/更新 UI 示例')),
       body: Padding(
@@ -79,23 +76,19 @@ class _NotifierProviderSampleScreenState
                 ElevatedButton(
                   onPressed: () {
                     /// 【重点：ref.read】读取 notifier 实例并调用业务方法（不会监听）
-                    ref.read(userListProvider.notifier).fetchUsers();
+                    ref.read(userListProvider.notifier).requestData();
                   },
                   child: const Text('请求成功(模拟)'),
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    ref
-                        .read(userListProvider.notifier)
-                        .fetchUsers(simulateError: true);
+                    ref.read(userListProvider.notifier).requestData(simulateError: true);
                   },
                   child: const Text('请求失败(模拟)'),
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    ref
-                        .read(userListProvider.notifier)
-                        .fetchUsers(randomError: true);
+                    ref.read(userListProvider.notifier).requestData(randomError: true);
                   },
                   child: const Text('随机失败'),
                 ),
@@ -114,10 +107,10 @@ class _NotifierProviderSampleScreenState
                 TextButton(
                   onPressed: () {
                     /// 【重点：ref.invalidate】让 provider 失效并重建（会触发 Notifier 的 build()）
-                    /// 适合“恢复初始状态 + 重新走初始化逻辑”
+                    /// 适合“恢复初始状态”，是否发起请求由你手动决定
                     ref.invalidate(userListProvider);
                   },
-                  child: const Text('invalidate(重建并初始化加载)'),
+                  child: const Text('invalidate(重建并清空)'),
                 ),
               ],
             ),
